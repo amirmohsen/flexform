@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FlexForm from 'src';
+import Simple from './Simple/Simple';
 
 ReactDOM.render(
-	<FlexForm/>,
+	<Simple/>,
 	document.querySelector('.app-wrapper')
 );
 
