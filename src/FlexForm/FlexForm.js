@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import update from 'react-addons-update';
 import extend from 'extend';
+import DataStore from './DataStore';
 
 export default class FlexForm extends Component {
 
@@ -30,92 +30,31 @@ export default class FlexForm extends Component {
 		)
 	};
 
-	save = ({key, data, schema}) => {
-		data = this.initFieldData({data, schema});
-
-		let modifier = {
-			data: {}
+	onDataReady = (data) => {
+		this.state = {
+			data
 		};
+	};
 
-		key.reduce((modifierPart, keyPart, keyIndex) => {
-			modifierPart[keyPart] = {};
-			if(keyIndex === key.length - 1) {
-				modifierPart[keyPart].$set = data;
-				return modifier;
-			}
-			return modifierPart[keyPart];
-		}, modifier.data);
-
-		this.setState(update(this.state, modifier), () => this.props.onChange(this.state.data));
+	onDataUpdate = (data) => {
+		this.setState({
+			data
+		}, () => this.props.onChange(this.state.data));
 	};
 
 	constructor(props) {
 		super(props);
 		this.schema = this.getSchema();
-		this.state = {
-			data: this.initData()
-		};
+		this.dataStore = new DataStore({
+			schema: this.schema,
+			data: this.props.data,
+			onReady: this.onDataReady,
+			onUpdate: this.onDataUpdate
+		});
 	}
 
 	componentDidMount() {
 		this.props.onInit(this.state.data);
-	}
-
-	initData() {
-		return this.initFieldData({schema: this.schema, data: extend(true, {}, this.props.data || {})});
-	}
-
-	initFieldData({schema, data}) {
-		if(Array.isArray(schema) && schema.length > 0) {
-			data.forEach(item => this.initFieldData({schema: schema[0], data: item}));
-			return data;
-		}
-		else if(typeof schema === 'object') {
-			for(let key in schema) {
-				let schemaValue = schema[key];
-				if(Array.isArray(schemaValue)) {
-					if(!data[key]) {
-						data[key] = [];
-					}
-					else if(data[key].length > 0 && schemaValue.length > 0) {
-						data[key].forEach(item => this.initFieldData({schema: schemaValue[0], data: item}));
-					}
-				}
-				else if(schemaValue === String)  {
-					if(!data[key]) {
-						data[key] = '';
-					}
-				}
-				else if(schemaValue === Number)  {
-					if(!data[key]) {
-						data[key] = 0;
-					}
-				}
-				else if(schemaValue === Boolean)  {
-					if(!data[key]) {
-						data[key] = false;
-					}
-				}
-				else if(typeof schemaValue === 'object') {
-					if(!data[key]) {
-						data[key] = {};
-					}
-					if(Object.keys(schemaValue).length > 0) {
-						this.initFieldData({schema: schemaValue, data: data[key]});
-					}
-				}
-				else {
-					if(!data[key]) {
-						data[key] = null;
-					}
-				}
-			}
-		}
-		else {
-			return data;
-		}
-
-		return data;
 	}
 
 	getSchema() {
@@ -129,7 +68,7 @@ export default class FlexForm extends Component {
 		return {
 			flexFormSchema: this.schema,
 			flexFormData: this.state.data,
-			flexFormSave: this.save,
+			flexFormSave: this.dataStore.save.bind(this.dataStore),
 			flexFormPath: []
 		};
 	}
