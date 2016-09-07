@@ -1,5 +1,6 @@
 import update from 'react-addons-update';
 import extend from 'extend';
+import types from './types/types';
 
 export default class DataStore {
 
