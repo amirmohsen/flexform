@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import schema from './schema';
-import FlexForm, {GroupList, Group, Text} from 'src';
+import FlexForm from 'src';
+import {GroupList, Group, Text, Radio, Checkbox} from '../BasicFields';
 
 export default class Simple extends Component {
 
@@ -14,6 +15,9 @@ export default class Simple extends Component {
 		super(props);
 		this.state = {
 			data: {
+				profile: {
+					age: 30
+				},
 				children: [
 					{
 						name: 'Julie'
@@ -28,28 +32,25 @@ export default class Simple extends Component {
 
 	render() {
 		return (
-			<div>
-				<FlexForm schema={schema} data={this.state.data} onInit={this.onChange} onChange={this.onChange} >
-					<Group path="profile">
-						<Text path="name"/>
+			<FlexForm schema={schema} data={this.state.data} onInit={this.onChange} onChange={this.onChange} >
+				<Group path="profile">
+					Name: <Text path="name"/>
+					Age: <Text path="age"/>
+					Has Higher Education Degree? <Checkbox path="higherEd"/>
+				</Group>
+				Children:
+				<GroupList path="children">
+					<Group path="$">
+						Name: <Text path="name"/>
+						Gender:
+						Male: <Radio value="male" path="gender" />
+						Female: <Radio value="female" path="gender" />
 					</Group>
-					<GroupList path="children">
-						<Group path="$">
-							<Text path="name"/>
-						</Group>
-					</GroupList>
-					{/*<GroupList path"children">*/}
-						{/*<Group path"$">*/}
-							{/*<Text path"name"/>*/}
-							{/*<Image path"image"/>*/}
-							{/*<RadioButton path"gender"/>*/}
-						{/*</Group>*/}
-					{/*</GroupList>*/}
-				</FlexForm>
+				</GroupList>
 				<pre>
-					{JSON.stringify(this.state.data, null, '\t')}
-				</pre>
-			</div>
+						{JSON.stringify(this.state.data, null, '\t')}
+					</pre>
+			</FlexForm>
 		);
 	}
 }

@@ -1,12 +1,17 @@
 export default new mongoose.Schema({
 	profile: {
-		name: String
+		name: String,
+		age: Number,
+		higherEd: Boolean
 	},
 	children: [
 		{
 			name: String,
 			image: String,
-			gender: String
+			gender: {
+				type: String,
+				default: 'female'
+			}
 		}
 	]
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import Field from '../FlexForm/Field';
+import {Field} from 'src';
 import extend from 'extend';
 
 export default class GroupList extends Field {
