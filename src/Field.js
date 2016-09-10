@@ -37,6 +37,7 @@ export default class Field extends Component {
 		super(props, context);
 		this.schema = this.getSchema();
 		this.fullKey = [...this.context.flexFormPath, this.props.path];
+		this.id = this.fullKey.join('-');
 	}
 
 	getSchema() {
