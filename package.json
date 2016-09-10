@@ -1,6 +1,6 @@
 {
   "name": "flexform",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": "https://github.com/amirmohsen/flexform",
   "description": "A JavaScript form generator library using React and Mongoose schemas.",
   "main": "index.js",
@@ -92,8 +92,8 @@
     "customizable"
   ],
   "author": {
-    "name" : "Amir Mohsen Abdolrazaghi",
-    "email" : "amir@marooncanvas.com"
+    "name": "Amir Mohsen Abdolrazaghi",
+    "email": "amir@marooncanvas.com"
   },
   "license": "MIT"
 }
