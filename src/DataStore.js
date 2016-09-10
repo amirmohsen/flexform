@@ -1,4 +1,3 @@
-import update from 'react-addons-update';
 import extend from 'extend';
 import types from './types/types';
 import TypeNoMatchError from './types/TypeNoMatchError';
@@ -56,18 +55,14 @@ export default class DataStore {
 	save({key, data, schema}) {
 		data = this.initFieldData({name: key.join('.'), data, schema});
 
-		let modifier = {};
-
-		key.reduce((modifierPart, keyPart, keyIndex) => {
-			modifierPart[keyPart] = {};
+		key.reduce((dataSegment, keyPart, keyIndex) => {
 			if(keyIndex === key.length - 1) {
-				modifierPart[keyPart].$set = data;
-				return modifier;
+				dataSegment[keyPart] = data;
+				return this.data;
 			}
-			return modifierPart[keyPart];
-		}, modifier);
+			return dataSegment[keyPart];
+		}, this.data);
 
-		this.data = update(this.data, modifier);
 		this.onUpdate(this.data);
 	}
 }

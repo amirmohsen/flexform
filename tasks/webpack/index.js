@@ -1,5 +1,6 @@
 import {resolve} from 'path';
-import webpackConfig from './webpack.examples.config';
+import webpackExamplesConfig from './webpack.examples.config';
+import webpackLibConfig from './webpack.lib.config';
 import {argv} from 'yargs';
 
 process.chdir(resolve(__dirname, '../../'));
@@ -11,11 +12,13 @@ else {
 	process.env.NODE_ENV = 'production';
 }
 
+let webpackConfig = argv.debug ? webpackExamplesConfig : webpackLibConfig;
+
 export default webpackConfig({
 	root: resolve(__dirname, '../../'),
 	assetsPath: resolve(__dirname, '../../dist'),
 	dev: !!argv.debug,
 	entries: {
-		main: './examples/index.js'
+		index: argv.debug ? './examples/index.js' : './src'
 	}
 });

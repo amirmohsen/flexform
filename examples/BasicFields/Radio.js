@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field} from 'src';
+import {Field} from 'lib';
 
 export default class Radio extends Field {
 

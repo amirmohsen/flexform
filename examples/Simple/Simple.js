@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import schema from './schema';
-import FlexForm from 'src';
+import FlexForm from 'lib';
 import {GroupList, Group, Text, Radio, Checkbox} from '../BasicFields';
 
 export default class Simple extends Component {
@@ -48,8 +48,8 @@ export default class Simple extends Component {
 					</Group>
 				</GroupList>
 				<pre>
-						{JSON.stringify(this.state.data, null, '\t')}
-					</pre>
+					{JSON.stringify(this.state.data, null, '\t')}
+				</pre>
 			</FlexForm>
 		);
 	}

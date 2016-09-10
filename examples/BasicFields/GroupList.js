@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field} from 'src';
+import {Field} from 'lib';
 import extend from 'extend';
 
 export default class GroupList extends Field {

@@ -7,7 +7,6 @@ export default new mongoose.Schema({
 	children: [
 		{
 			name: String,
-			image: String,
 			gender: {
 				type: String,
 				default: 'female'
