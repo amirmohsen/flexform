@@ -17,7 +17,7 @@ npm install --save flexform
 
 The followings can be imported from the `flexform` module.
  
-```
+```js
 import FlexForm, {Field, FlexFormError, TypeNoMatchError, types, setType} from 'flexform';
 ```
 
@@ -29,7 +29,7 @@ Unlike other form generators, it doesn't come with built-in fields, but it allow
 All fields that you create must extend the `Field` component.
 Here's a simple text field. Check the `examples` folder for more.
 
-```
+```js
 import React from 'react';
 import {Field} from 'flexform';
 
@@ -51,7 +51,7 @@ export default class Text extends Field {
 
 Provided with the following schema:
 
-```
+```js
 export default new mongoose.Schema({
 	profile: {
 		name: String,
@@ -72,7 +72,7 @@ export default new mongoose.Schema({
 
 We can easily generate a form (with or without existing data):
 
-```
+```js
 import React, {Component} from 'react';
 import schema from './schema';
 import FlexForm from 'flexform';
