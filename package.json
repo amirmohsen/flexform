@@ -1,6 +1,6 @@
 {
   "name": "flexform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/amirmohsen/flexform",
   "description": "A JavaScript form generator library using React and Mongoose schemas.",
   "main": "index.js",
