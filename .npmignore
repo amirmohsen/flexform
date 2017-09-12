@@ -1,6 +1,1 @@
-src/
-examples/
-docs/
-tasks/
-.gitignore
-.idea
+src

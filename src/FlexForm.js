@@ -1,83 +1,109 @@
-import React, {Component} from 'react';
-import extend from 'extend';
-import DataStore from './DataStore';
+import React, {Component, PropTypes} from 'react';
+import {set} from 'object-path-immutable';
+import {Path} from 'flexschema';
+import FieldStore from './FieldStore';
+import ProcessorStore from './ProcessorStore';
+import Architect from './Architect';
+
+const
+	store = new FieldStore(),
+	processorStore = new ProcessorStore();
+
+Architect.store = store;
+Architect.processorStore = processorStore;
 
 export default class FlexForm extends Component {
 
 	static propTypes = {
-		onInit: React.PropTypes.func,
-		onChange: React.PropTypes.func,
-		schema: React.PropTypes.object.isRequired,
-		data: React.PropTypes.object.isRequired
+		value: PropTypes.any.isRequired,
+		meta: PropTypes.object.isRequired,
+		schema: PropTypes.object.isRequired,
+		namespace: PropTypes.string,
+		plan: PropTypes.object,
+		onChange: PropTypes.func,
+		onSubmit: PropTypes.func,
+		className: PropTypes.string,
+		style: PropTypes.object
 	};
 
 	static defaultProps = {
-		onInit: () => {},
-		onChange: () => {}
+		onChange: () => {},
+		className: '',
+		style: {}
 	};
 
 	static childContextTypes = {
-		flexFormSchema: React.PropTypes.any,
-		flexFormData: React.PropTypes.any,
-		flexFormSave: React.PropTypes.func,
-		flexFormPath: React.PropTypes.arrayOf(
-			React.PropTypes.oneOfType(
-				[
-					React.PropTypes.string,
-					React.PropTypes.number
-				]
-			)
-		)
+		flexForm: PropTypes.shape({
+			data: PropTypes.any.isRequired,
+			meta: PropTypes.object.isRequired,
+			schema: PropTypes.object.isRequired,
+			save: PropTypes.func.isRequired,
+			path: PropTypes.object.isRequired
+		}).isRequired
 	};
 
-	onDataReady = (data) => {
-		this.state = {
-			data
-		};
+	static store = store;
+
+	static processorStore = processorStore;
+
+	save = ({path, value}) => this.props.onChange({
+		value: path.setData({
+			data: this.props.value,
+			newData: value,
+			immutable: true
+		})
+	});
+
+	onSubmit = e => {
+		if(this.props.onSubmit) {
+			this.props.onSubmit({e, value: this.props.value});
+		}
+		else {
+			e.preventDefault();
+		}
 	};
-
-	onDataUpdate = (data) => {
-		this.setState({
-			data
-		}, () => this.props.onChange(this.state.data));
-	};
-
-	constructor(props) {
-		super(props);
-		this.schema = this.getSchema();
-		this.dataStore = new DataStore({
-			schema: this.schema,
-			data: this.props.data,
-			onReady: this.onDataReady,
-			onUpdate: this.onDataUpdate
-		});
-	}
-
-	componentDidMount() {
-		this.props.onInit(this.state.data);
-	}
-
-	getSchema() {
-		let schema = extend(true, {}, this.props.schema.tree);
-		delete schema.id;
-		delete schema._id;
-		return schema;
-	}
 
 	getChildContext() {
 		return {
-			flexFormSchema: this.schema,
-			flexFormData: this.state.data,
-			flexFormSave: this.dataStore.save.bind(this.dataStore),
-			flexFormPath: []
+			flexForm: {
+				data: this.props.value,
+				meta: this.props.meta,
+				schema: this.props.schema,
+				save: this.save,
+				schemaPath: new Path(),
+				path: new Path()
+			}
 		};
+	}
+
+	getChildren() {
+		if(this.props.plan) {
+			const architect = new Architect({
+				namespace: this.props.namespace,
+				schema: this.props.schema,
+				plan: this.props.plan,
+				data: this.props.value
+			});
+			architect.build();
+			return architect.tree;
+		}
+
+		return this.props.children;
 	}
 
 	render() {
 		return (
-			<div>
-				{this.props.children}
-			</div>
+			<form className={this.props.className} style={this.props.style} onSubmit={this.onSubmit}>
+				{this.getChildren()}
+			</form>
 		);
+	}
+
+	static registerField(args) {
+		this.store.set(args);
+	}
+
+	static registerProcessor(args) {
+		this.processorStore.set(args);
 	}
 }

@@ -1,99 +1,85 @@
 {
   "name": "flexform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "https://github.com/amirmohsen/flexform",
-  "description": "A JavaScript form generator library using React and Mongoose schemas.",
-  "main": "index.js",
+  "description": "A form generator library using FlexSchema",
   "scripts": {
-    "prepare": "npm install && npm prune",
-    "watch": "webpack-dev-server --content-base dist/ --config tasks/build.js --inline --hot --port 3000 --progress --color --display-error-details --debug",
-    "serve": "http-server ./examples",
-    "dev": "npm run prepare && concurrently --kill-others \"npm run watch\" \"npm run serve\"",
-    "build": "npm run prepare && webpack --config tasks/build.js"
+    "dev": "node --preserve-symlinks ./build --dev",
+    "build": "node --preserve-symlinks ./build",
+    "prepublishOnly": "npm run build"
   },
-  "dependencies": {
-    "extend": "^3.0.0",
-    "extendable-error": "^0.1.4"
-  },
-  "peerDependencies": {
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1"
-  },
-  "devDependencies": {
-    "autoprefixer": "^6.4.1",
-    "babel-loader": "^6.2.5",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-module-resolver": "^2.2.0",
-    "babel-plugin-syntax-decorators": "^6.13.0",
-    "babel-plugin-transform-class-properties": "^6.11.5",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-object-assign": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-latest": "^6.14.0",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-react-optimize": "^1.0.1",
-    "clean-webpack-plugin": "^0.1.10",
-    "concurrently": "^2.2.0",
-    "css-loader": "^0.24.0",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "http-server": "^0.9.0",
-    "json-loader": "^0.5.4",
-    "node-sass": "^3.8.0",
-    "postcss-loader": "^0.11.1",
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1",
-    "react-hot-loader": "^1.3.0",
-    "sass-loader": "^4.0.1",
-    "style-loader": "^0.13.1",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.1",
-    "webpack-node-externals": "^1.3.3",
-    "yargs": "^5.0.0"
-  },
-  "babel": {
-    "presets": [
-      "latest",
-      "react",
-      "react-optimize"
-    ],
-    "plugins": [
-      "syntax-decorators",
-      "transform-decorators-legacy",
-      "transform-class-properties",
-      "transform-object-rest-spread",
-      "transform-object-assign",
-      "array-includes",
-      "add-module-exports",
-      [
-        "module-resolver",
-        {
-          "root": [
-            "./"
-          ],
-          "alias": {
-            "lib": "./src"
-          }
-        }
-      ]
-    ]
-  },
+  "files": [
+    "dist",
+    "server.js",
+    "client.js"
+  ],
   "keywords": [
-    "react",
-    "component",
-    "react-component",
+    "flexverse",
     "form",
-    "generator",
-    "mongoose",
-    "schema",
-    "customize",
-    "customizable"
+    "generator"
   ],
   "author": {
-    "name": "Amir Mohsen Abdolrazaghi",
-    "email": "amir@marooncanvas.com"
+    "name": "Amir Abdolrazaghi",
+    "email": "amir@flexverse.tech"
   },
-  "license": "MIT"
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/amirmohsen/flexform/issues"
+  },
+  "homepage": "https://github.com/amirmohsen/flexform#readme",
+  "dependencies": {
+    "extend": "^3.0.0",
+    "extendable-error": "^0.1.4",
+    "flexschema": "^0.0.0",
+    "flexstore": "^0.0.1",
+    "lodash": "^4.17.4",
+    "object-path-immutable": "^0.5.1"
+  },
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "assets-webpack-plugin": "^3.5.1",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-module-resolver": "^2.5.0",
+    "babel-plugin-syntax-decorators": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.3.3",
+    "babel-preset-latest-node6": "^0.1.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "flexbuilder": "^0.0.0",
+    "postcss-cssnext": "^2.10.0",
+    "postcss-import": "^9.1.0",
+    "postcss-loader": "^1.3.3",
+    "postcss-variables-loader": "^2.1.3",
+    "progress-bar-webpack-plugin": "^1.9.3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "react-svg-loader": "^1.1.1",
+    "source-map-loader": "^0.2.1",
+    "source-map-support": "^0.4.14",
+    "style-loader": "^0.16.1",
+    "uglifyjs-webpack-plugin": "^0.4.2",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2",
+    "webpack-node-externals": "^1.5.4",
+    "yargs": "^7.0.2"
+  }
 }
