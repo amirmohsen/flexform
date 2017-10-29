@@ -1,6 +1,6 @@
-import FlexStore from 'flexstore';
+import BaseStore from './BaseStore';
 
-export default class ProcessorStore extends FlexStore {
+export default class ProcessorStore extends BaseStore {
 
 	has({namespace, name}) {
 		return super.has({path: [namespace, name]});

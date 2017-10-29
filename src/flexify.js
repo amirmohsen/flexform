@@ -1,6 +1,16 @@
-import React, {Component, PropTypes, cloneElement, Children} from 'react';
-import isEqual from 'lodash/isEqual';
-import {Path} from 'flexschema';
+import React from 'react';
+import PropTypes from 'prop-types';
+import lodash from 'lodash';
+
+const {
+	Component,
+	cloneElement,
+	Children
+} = React;
+
+const {
+	isEqual
+} = lodash;
 
 export default (options = {}) =>  Original => class FlexField extends Component {
 

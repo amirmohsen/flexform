@@ -1,9 +1,13 @@
-import React, {Component, PropTypes} from 'react';
-import {set} from 'object-path-immutable';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Path} from 'flexschema';
 import FieldStore from './FieldStore';
 import ProcessorStore from './ProcessorStore';
 import Architect from './Architect';
+
+const {
+	Component
+} = React;
 
 const
 	store = new FieldStore(),
