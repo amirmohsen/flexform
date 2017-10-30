@@ -20,8 +20,8 @@ export default class FlexForm extends Component {
 
 	static propTypes = {
 		value: PropTypes.any.isRequired,
-		meta: PropTypes.object.isRequired,
 		schema: PropTypes.object.isRequired,
+		meta: PropTypes.object,
 		namespace: PropTypes.string,
 		plan: PropTypes.object,
 		onChange: PropTypes.func,
@@ -31,6 +31,7 @@ export default class FlexForm extends Component {
 	};
 
 	static defaultProps = {
+		meta: {},
 		onChange: () => {},
 		className: '',
 		style: {}
