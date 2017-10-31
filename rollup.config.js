@@ -1,6 +1,8 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import uglify from 'rollup-plugin-uglify';
+import replace from 'rollup-plugin-replace';
 import pkg from './package.json';
 
 let presets = pkg.babel.presets;
@@ -22,6 +24,8 @@ const babelConfig = {
 };
 
 const depList = Object.keys(Object.assign({}, pkg.dependencies, pkg.peerDependencies));
+
+const production = !process.env.ROLLUP_WATCH;
 
 export default [
 	{
@@ -56,18 +60,18 @@ export default [
 	},
 	{
 		input: 'examples/src/index.js',
-		external: [
-			...depList,
-			'dist/flexschema.esm'
-		],
-		output: [
-			{
-				file: 'examples/dist/index.js',
-				format: 'cjs'
-			}
-		],
+		output: {
+			file: 'examples/dist/index.js',
+			format: 'iife',
+		},
 		plugins: [
-			babel(babelConfig)
+			resolve(),
+			babel(babelConfig),
+			commonjs(),
+			replace({
+				'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' )
+			}),
+			production && uglify()
 		]
 	}
 ];
